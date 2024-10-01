@@ -83,10 +83,10 @@ class BlockChain {
         return newBlock;
     }
 
-    ChangeDifficulty() {
+    CalculateDifficulty() {
         const lastBlock: Block = this.GetLastBlock();
         const prevLastBlock: Block = this.chain[this.chain.length - 2];
-        const diffInTime: number = lastBlock - prevLastBlock;
+        const diffInTime: number = lastBlock.timestamp - prevLastBlock.timestamp;
         if (diffInTime < blockTime) {
             this.difficulty = this.difficulty + 1;
         } else if (diffInTime > blockTime) {
