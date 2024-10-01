@@ -3,17 +3,18 @@ import buildMerkleTree from '../utils/merkle_tree';
 import Transaction from './transaction';
 
 const MiningDifficulty = 3;
+type Nullable = string | null 
 
 // Block class
-class Block<T> {
+class Block {
     nonce: number;
     blockHeight: number;
     timestamp: number;
     transactions: Transaction[];
     trxCount: number;
-    merkleroot: T;
+    merkleroot: Nullable;
     prevBlockHash: string;
-    blockHash: T;
+    blockHash: Nullable;
 
     constructor (blockHeight: number, transactions: Transaction[], trxCount: number, prevBlockHash: string) {
         this.nonce = 0;
@@ -27,7 +28,7 @@ class Block<T> {
     }
 
     //Method to hash a block 
-    BlockHash(): T {
+    BlockHash(): Nullable {
         const blockDataAsString = `${this.blockHeight}${this.nonce}${JSON.stringify(this.transactions)}${this.merkleroot}${this.prevBlockHash}`;
         this.blockHash = hashBlock(blockDataAsString) as T;
         return this.blockHash;
