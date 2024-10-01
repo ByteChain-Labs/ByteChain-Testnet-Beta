@@ -1,3 +1,5 @@
+import { hashBlock }  from '../utils/crypto';
+
 function ProofOfWork(blockDataAsString: string, MiningDifficulty: number): { hash: string, nonce: number } {
   let nonce = 0;
   let hash: string;
