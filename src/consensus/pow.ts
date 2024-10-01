@@ -12,3 +12,6 @@ function ProofOfWork(blockDataAsString: string, MiningDifficulty: number): { has
   }
   return { hash, nonce };
 }
+
+
+export default ProofOfWork;
