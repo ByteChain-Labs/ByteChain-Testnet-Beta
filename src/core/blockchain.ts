@@ -7,13 +7,14 @@ class BlockChain {
     blockTime: number = 10000;
     blockChainAddress: string = '0'.repeat(25) + 'BYTECHAIN';
     minerAddress: string
+    blockChainAddress: string = '0'.repeat(25) + 'BYTECHAIN';
+    difficulty: number = 3;
     MiningReward: number = 1024;
 
     constructor(minerAddress: string) {
         this.chain = [];
         this.transactionPool = [];
         this.minerAddress =  minerAddress;
-        this.blockChainAddress = '0'.repeat(25) + 'BYTECHAIN';
         this.GenesisBlock();
     }
 
@@ -34,7 +35,7 @@ class BlockChain {
 
         const genesisBlock = new Block(1, genesisTransaction, genesisTransaction.length, GenesisBlockPrevHash);
         
-        genesisBlock.ProofOfWork();
+        genesisBlock.SetBlockProps(this.difficulty);
         this.chain.push(genesisBlock);
     }
 
