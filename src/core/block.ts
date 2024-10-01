@@ -6,7 +6,7 @@ import ProofOfWork from '../consensus/pow'
 class Block {
     nonce: number;
     blockHeight: number;
-    timestamp: number;
+    timestamp?: number;
     transactions: Transaction[];
     trxCount: number;
     merkleroot: string;
@@ -16,7 +16,6 @@ class Block {
     constructor (blockHeight: number, transactions: Transaction[], trxCount: number, prevBlockHash: string) {
         this.nonce = 0;
         this.blockHeight = blockHeight;
-        this.timestamp = Date.now();
         this.transactions = transactions;
         this.trxCount = trxCount;
         this.merkleroot = '';
@@ -32,6 +31,7 @@ class Block {
         
         this.blockHash = hash;
         this.nonce = nonce;
+        this.timestamp = Date.now();
     }
 
     CalculateMerkleRoot(): string {
