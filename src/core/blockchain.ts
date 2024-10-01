@@ -6,8 +6,7 @@ class BlockChain {
     transactionPool: Transaction[];
     blockTime: number = 5000;
     blockChainAddress: string = '0'.repeat(25) + 'BYTECHAIN';
-    minerAddress: string
-    blockChainAddress: string = '0'.repeat(25) + 'BYTECHAIN';
+    minerAddress: string;
     difficulty: number = 3;
     MiningReward: number = 1024;
 
@@ -87,6 +86,12 @@ class BlockChain {
         const lastBlock: Block = this.GetLastBlock();
         const prevLastBlock: Block = this.chain[this.chain.length - 2];
         const diffInTime: number = lastBlock.timestamp - prevLastBlock.timestamp;
+        if (this.difficulty < 1) {
+            this.difficulty = 1;
+        }
+        if (this.difficulty > 5) {
+            this.difficulty = 5;
+        }
         if (diffInTime < blockTime) {
             this.difficulty = this.difficulty + 1;
         } else if (diffInTime > blockTime) {
