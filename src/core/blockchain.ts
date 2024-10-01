@@ -4,7 +4,7 @@ import Transaction from './transaction';
 class BlockChain {
     chain: Block[];
     transactionPool: Transaction[];
-    blockTime: number = 10000;
+    blockTime: number = 5000;
     blockChainAddress: string = '0'.repeat(25) + 'BYTECHAIN';
     minerAddress: string
     blockChainAddress: string = '0'.repeat(25) + 'BYTECHAIN';
@@ -66,7 +66,7 @@ class BlockChain {
         const prevBlockHash = this.GetLastBlock().blockHash;
 
         const newBlock = new Block(blockHeight, transactions, trxCount, prevBlockHash);
-        newBlock.ProofOfWork();
+        newBlock.SetBlockProps(this.difficulty);
 
         // Reset transaction pool after block is added
         this.transactionPool = [];
@@ -81,6 +81,19 @@ class BlockChain {
         this.AddNewTransaction(MiningRewardTransaction, '');
         const newBlock = this.AddNewBlock(); 
         return newBlock;
+    }
+
+    ChangeDifficulty() {
+        const lastBlock: Block = this.GetLastBlock();
+        const prevLastBlock: Block = this.chain[this.chain.length - 2];
+        const diffInTime: number = lastBlock - prevLastBlock;
+        if (diffInTime < blockTime) {
+            this.difficulty = this.difficulty + 1;
+        } else if (diffInTime > blockTime) {
+            this.difficulty = this.difficulty - 1;
+        } else {
+            this.difficulty = this.difficulty;
+        }
     }
 
     SyncBlocks(block: Block): void {
