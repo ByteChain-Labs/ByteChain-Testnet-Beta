@@ -1,4 +1,5 @@
 import { hashTransaction, hashFunc } from '../utils/crypto'
+import Transaction from '../core/transaction'
 import crypto from 'crypto';
 import bs58 from 'bs58';
 import elliptic from 'elliptic';
@@ -44,14 +45,23 @@ class Wallet {
         if (generatedAddress !== transaction.sender) {
             throw new Error('You cannot sign transactions for another wallet.');
         }
-
-        // Hash the transaction
-        const hashedTransaction = hashTransaction(transaction);
+        const hashedTransaction = hashTransaction<Transaction>(transaction);
         const keyFromPrivate = ec.keyFromPrivate(this.privateKey);
         const sig = keyFromPrivate.sign(hashedTransaction, 'base64');
         const signature = sig.toDER('hex');
 
         return signature;
+    }
+
+    CreateTransaction(amount: number, recipient: string): Transaction {
+        const transaction: Transaction = new Transaction (
+            amount,
+            this.blockchainAddress,
+            recipient
+        )
+        const signature = this.SignTransaction(transaction);
+        transaction.signature = signature;
+        return transaction;
     }
 }
 
