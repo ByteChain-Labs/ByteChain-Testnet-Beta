@@ -28,7 +28,7 @@ class Block {
     }
 
     //Method to hash a block 
-    BlockHash(): Nullable {
+    HashBlock(): Nullable {
         const blockDataAsString = `${this.blockHeight}${this.nonce}${JSON.stringify(this.transactions)}${this.merkleroot}${this.prevBlockHash}`;
         this.blockHash = hashBlock(blockDataAsString) as T;
         return this.blockHash;
@@ -39,7 +39,7 @@ class Block {
         this.merkleroot = this.CalculateMerkleRoot() as T;
         let hash: string;
         while (true) {
-           hash = this.BlockHash();
+           hash = this.HashBlock();
             if (hash.substring(0, MiningDifficulty) === '0'.repeat(MiningDifficulty)) {
                 break;
             }
