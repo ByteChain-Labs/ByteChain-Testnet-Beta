@@ -2,9 +2,6 @@ import { hashTransaction } from '../utils/crypto';
 import { ec as EC } from 'elliptic';
 const ec = new EC('secp256k1');
 
-// Create a new wallet instance
-const wallet = new Wallet();
-
 class Transaction {
     amount: number;
     sender: string;
