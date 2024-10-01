@@ -1,5 +1,3 @@
-
-import Wallet from '../accounts/wallet';
 import { hashTransaction } from '../utils/crypto';
 import { ec as EC } from 'elliptic';
 const ec = new EC('secp256k1');
@@ -18,24 +16,6 @@ class Transaction {
         this.sender = sender;
         this.recipient = recipient;
         this.signature = signature;
-    }
-
-    // Static method to sign a transaction
-    static SignTransaction(amount: number, sender: string, recipient: string, privateKey: string): string {
-        const publicKey = wallet.CreatePublicKey(privateKey);
-        const generatedAddress = wallet.CreateBlockChainAddress(publicKey);
-
-        if (generatedAddress !== sender) {
-            throw new Error('You cannot sign transactions for another wallet.');
-        }
-
-        // Hash the transaction
-        const hashedTransaction = hashTransaction(amount, sender, recipient);
-        const keyFromPrivate = ec.keyFromPrivate(privateKey);
-        const sig = keyFromPrivate.sign(hashedTransaction, 'base64');
-        const signature = sig.toDER('hex');
-
-        return signature;
     }
 
     // Validate the transaction to check if it's signed by the owner of the wallet
@@ -58,7 +38,6 @@ class Transaction {
             if (!isValid) {
                 console.error('Transaction signature verification failed');
             }
-
             return isValid;
         } catch (error) {
             console.error('Error validating transaction:', (error as Error).message);
