@@ -1,11 +1,12 @@
-function ProofOfWork(blockhash: string): number { 
+function ProofOfWork(blockDataAsString: string, MiningDifficulty: number): { hash: string, nonce: number } {
+  let nonce = 0;
   let hash: string;
   while (true) {
-    hash 
-    if (blockhash.substring(0, MiningDifficulty) === '0'.repeat(MiningDifficulty)) {
+    hash = hashBlock(blockDataAsString + nonce); 
+    if (hash.substring(0, MiningDifficulty) === '0'.repeat(MiningDifficulty)) {
       break;
     }
-    this.nonce++;
-  };
-  return this.nonce;
-} 
+    nonce++;
+  }
+  return { hash, nonce };
+}
