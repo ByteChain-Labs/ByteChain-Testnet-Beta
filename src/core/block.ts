@@ -6,7 +6,7 @@ import ProofOfWork from '../consensus/pow'
 class Block {
     nonce: number;
     blockHeight: number;
-    timestamp?: number;
+    timestamp: number;
     transactions: Transaction[];
     trxCount: number;
     merkleroot: string;
@@ -18,6 +18,7 @@ class Block {
         this.blockHeight = blockHeight;
         this.transactions = transactions;
         this.trxCount = trxCount;
+        this.timestamp = 0;
         this.merkleroot = '';
         this.prevBlockHash = prevBlockHash;
         this.blockHash = '';

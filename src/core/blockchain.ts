@@ -82,7 +82,7 @@ class BlockChain {
         return newBlock;
     }
 
-    CalculateDifficulty() {
+    CalculateDifficulty(): void {
         const lastBlock: Block = this.GetLastBlock();
         const prevLastBlock: Block = this.chain[this.chain.length - 2];
         const diffInTime: number = lastBlock.timestamp - prevLastBlock.timestamp;
@@ -92,9 +92,9 @@ class BlockChain {
         if (this.difficulty > 5) {
             this.difficulty = 5;
         }
-        if (diffInTime < blockTime) {
+        if (diffInTime < this.blockTime) {
             this.difficulty = this.difficulty + 1;
-        } else if (diffInTime > blockTime) {
+        } else if (diffInTime > this.blockTime) {
             this.difficulty = this.difficulty - 1;
         } else {
             this.difficulty = this.difficulty;
@@ -119,9 +119,9 @@ class BlockChain {
                 return false;
             }
 
-            if (currentBlock.blockHash !== currentBlock.BlockHash()) {
-                return false;
-            }
+            // if (currentBlock.blockHash !== currentBlock.BlockHash()) {
+            //     return false;
+            // }
 
             if (currentBlock.prevBlockHash !== prevBlock.blockHash) {
                 return false;

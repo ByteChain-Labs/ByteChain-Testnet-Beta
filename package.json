@@ -12,7 +12,11 @@
     "@types/bs58": "^4.0.4",
     "@types/elliptic": "^6.4.18",
     "@types/node": "^22.7.4",
-    "@types/sha256": "^0.2.2"
+    "@types/sha256": "^0.2.2",
+    "bs58": "^6.0.0",
+    "crypto": "^1.0.1",
+    "elliptic": "^6.5.7",
+    "sha256": "^0.2.0"
   },
   "devDependencies": {
     "typescript": "^5.6.2"

@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import Transaction from '../core/transaction';
 
 export function hashFunc(data: Buffer): Buffer {
     const hashedData = crypto.createHash('sha256').update(
@@ -17,8 +18,8 @@ export function hashBlock(data: string): string {
     return hashedData;
 }
 
-export function hashTransaction<T>(transaction: T): string {
-    const transactionDataAsString = `${transaction.amount}${transaction.sender}${transaction.recipient}`;
+export function hashTransaction(amount: number, sender: string, recipient: string): string {
+    const transactionDataAsString = `${amount}${sender}${recipient}`;
     const hashedTransaction = hashBlock(transactionDataAsString);
     return hashedTransaction;
 }
