@@ -1,18 +1,12 @@
+import { hashTransaction, hashFunc } from '../utils/crypto'
 import crypto from 'crypto';
 import bs58 from 'bs58';
 import elliptic from 'elliptic';
 
 const ec = new elliptic.ec('secp256k1');
 
-function hashFunc(data: Buffer): Buffer {
-    const hashedData = crypto.createHash('sha256').update(
-        crypto.createHash('sha256').update(data).digest()
-    ).digest();
-    return hashedData;
-}
-
 class Wallet {
-    public privateKey: string;
+    private privateKey: string;
     public publicKey: string;
     public blockchainAddress: string;
 
@@ -41,6 +35,23 @@ class Wallet {
         const blockchainAddress = bs58.encode(finalPayload);
         
         return blockchainAddress;
+    }
+
+    SignTransaction(transaction: Transaction): string {
+        const publicKey = this.CreatePublicKey(this.privateKey);
+        const generatedAddress = this.CreateBlockChainAddress(publicKey);
+
+        if (generatedAddress !== transaction.sender) {
+            throw new Error('You cannot sign transactions for another wallet.');
+        }
+
+        // Hash the transaction
+        const hashedTransaction = hashTransaction(transaction);
+        const keyFromPrivate = ec.keyFromPrivate(this.privateKey);
+        const sig = keyFromPrivate.sign(hashedTransaction, 'base64');
+        const signature = sig.toDER('hex');
+
+        return signature;
     }
 }
 
