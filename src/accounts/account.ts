@@ -6,7 +6,7 @@ import elliptic from 'elliptic';
 
 const ec = new elliptic.ec('secp256k1');
 
-class Wallet {
+class Account {
     public privateKey: string;
     public publicKey: string;
     public blockchainAddress: string;
@@ -38,47 +38,25 @@ class Wallet {
         return blockchainAddress;
     }
 
-    SignTransaction(transaction: Transaction): string {
-        const publicKey = this.CreatePublicKey(this.privateKey);
+    SignTransaction(transaction: Transaction, privKey: string): string {
+        const publicKey = this.CreatePublicKey(privKey);
         const generatedAddress = this.CreateBlockChainAddress(publicKey);
 
         if (generatedAddress !== transaction.sender) {
-            throw new Error('You cannot sign transactions for another wallet.');
+            throw new Error('You cannot sign transactions for another account.');
         }
 
         const { amount, sender, recipient } = transaction;
         const hashedTransaction = hashTransaction(amount, sender, recipient);
-        const keyFromPrivate = ec.keyFromPrivate(this.privateKey);
+        const keyFromPrivate = ec.keyFromPrivate(privKey);
         const sig = keyFromPrivate.sign(hashedTransaction, 'base64');
         const signature = sig.toDER('hex');
 
         return signature;
     }
 
-    CreateTransaction(amount: number, recipient: string): Transaction {
-        if (amount < 0) {
-            throw new Error(`Amount ${amount} is less than zero `);
-        }
-        const transaction: Transaction = new Transaction (
-            amount,
-            this.blockchainAddress,
-            recipient,
-            ''
-        )
-        const signature = this.SignTransaction(transaction);
-        transaction.signature = signature;
-        return transaction;
-    }
-}
-
-const wallet = new Wallet();
-
-try {
-    wallet.CreateTransaction(1000, 'BsJRJVSYBrfbWuBZAcaPgnkR6C3ofCcUhe');
-    console.log('Transaction completed successfully')
-} catch (error) {
-    console.log('Error:', error)
+    
 }
 
 
-export default Wallet;
+export default Account;

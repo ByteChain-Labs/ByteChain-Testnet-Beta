@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import Transaction from '../core/transaction';
 
 export function hashFunc(data: Buffer): Buffer {
     const hashedData = crypto.createHash('sha256').update(

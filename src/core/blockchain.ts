@@ -115,13 +115,9 @@ class BlockChain {
                 return false;
             }
 
-            if (!currentBlock.ContainValidTransactions()) {
+            if (!currentBlock.blockHash) {
                 return false;
             }
-
-            // if (currentBlock.blockHash !== currentBlock.BlockHash()) {
-            //     return false;
-            // }
 
             if (currentBlock.prevBlockHash !== prevBlock.blockHash) {
                 return false;

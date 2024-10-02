@@ -41,19 +41,6 @@ class Block {
         }
         return buildMerkleTree(this.transactions);
     }
-
-    ContainValidTransactions(): string | boolean {
-        for (const transaction of this.transactions) {
-            if (!(transaction instanceof Transaction)) {
-                throw new Error('Invalid transaction instance');
-            }
-            //            TODO
-            // if (!transaction.IsValidTransaction()) {
-            //     return false;
-            // }
-        }
-        return true;
-    }
 }
 
 
