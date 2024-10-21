@@ -18,8 +18,9 @@ class Account {
     }
 
     // Generates the public key from a private key
-    CreatePublicKey(privateKey: string): string {
-        const keyPair = ec.keyFromPrivate(privateKey);
+    CreatePublicKey(privKey: string): string {
+        const keyPair = ec.keyFromPrivate(privKey);
+        privKey = '';
         const publicKey = keyPair.getPublic('hex');
         return publicKey;
     }
@@ -49,6 +50,7 @@ class Account {
         const { amount, sender, recipient } = transaction;
         const hashedTransaction = hashTransaction(amount, sender, recipient);
         const keyFromPrivate = ec.keyFromPrivate(privKey);
+        privKey = '';
         const sig = keyFromPrivate.sign(hashedTransaction, 'base64');
         const signature = sig.toDER('hex');
 
